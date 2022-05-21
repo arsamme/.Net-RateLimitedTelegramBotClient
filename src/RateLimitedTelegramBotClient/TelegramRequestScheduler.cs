@@ -113,12 +113,11 @@ public class TelegramRequestScheduler
 
     private Task YieldAsyncCore(long bucket, long timestampIncrement)
     {
-        TaskCompletionSource<bool> tcs =
-            new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         lock (_lock)
         {
-            if (_buckets.TryGetValue(bucket, out Queue<TaskCompletionSource<bool>>? queue))
+            if (_buckets.TryGetValue(bucket, out var queue))
             {
                 queue?.Enqueue(tcs);
             }
@@ -135,19 +134,14 @@ public class TelegramRequestScheduler
 
     public Task YieldAsync(ChatId chatId)
     {
-        if (chatId?.Username is { } username)
-        {
-            return YieldAsyncCore(username.GetHashCode(), _groupTimestampIncrement);
-        }
-        else
-        {
-            return YieldAsync(chatId?.Identifier ?? 0);
-        }
+        return chatId.Username != null
+            ? YieldAsyncCore(chatId.Username.GetHashCode(), _groupTimestampIncrement)
+            : YieldAsync(chatId.Identifier ?? 0);
     }
 
     public Task YieldAsync(long bucket = 0)
     {
-        long timestampIncrement = bucket == 0 ? _generalTimestampIncrement
+        var timestampIncrement = bucket == 0 ? _generalTimestampIncrement
             : bucket > 0 ? _privateTimestampIncrement
             : _groupTimestampIncrement;
 

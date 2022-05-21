@@ -10,15 +10,17 @@ public class RateLimitedTelegramBotClient : TelegramBotClient
 {
     private readonly TelegramRequestScheduler _requestScheduler;
 
-    public RateLimitedTelegramBotClient(TelegramBotClientOptions options, HttpClient? httpClient = null) : base(options,
+    public RateLimitedTelegramBotClient(TelegramBotClientOptions options, SchedulerSettings? schedulerSettings = null,
+        HttpClient? httpClient = null) : base(options,
         httpClient)
     {
-        _requestScheduler = new TelegramRequestScheduler();
+        _requestScheduler = new TelegramRequestScheduler(schedulerSettings);
     }
 
-    public RateLimitedTelegramBotClient(string token, HttpClient? httpClient = null) : base(token, httpClient)
+    public RateLimitedTelegramBotClient(string token, SchedulerSettings? schedulerSettings = null,
+        HttpClient? httpClient = null) : base(token, httpClient)
     {
-        _requestScheduler = new TelegramRequestScheduler();
+        _requestScheduler = new TelegramRequestScheduler(schedulerSettings);
     }
 
 

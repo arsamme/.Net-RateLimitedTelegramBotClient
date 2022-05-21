@@ -9,12 +9,13 @@ public class SchedulerSettings
     public SchedulerSettings(
         int safeGeneralInterval = 34,
         int safePrivateChatInterval = 1000,
-        int safeGroupChatInterval = 3000)
+        int safeGroupChatInterval = 100
+    )
     {
         SafeGeneralInterval = safeGeneralInterval;
         SafePrivateChatInterval = safePrivateChatInterval;
         SafeGroupChatInterval = safeGroupChatInterval;
     }
 
-    public static readonly SchedulerSettings Default = new SchedulerSettings();
+    public static readonly SchedulerSettings Default = new();
 }
