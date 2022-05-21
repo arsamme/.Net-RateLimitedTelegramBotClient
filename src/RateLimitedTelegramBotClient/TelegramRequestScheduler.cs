@@ -46,13 +46,6 @@ public class TelegramRequestScheduler
     private long _lastTimestamp;
     private readonly Timer _timer;
 
-#if DEBUG
-    /// <summary>
-    /// For testing purposes only
-    /// </summary>
-    public int DebugCurrentCount => _requestHeap.Count + _buckets.Count;
-#endif
-
     private long Timestamp() => DateTime.UtcNow.Ticks;
 
     private void OnInterval()
