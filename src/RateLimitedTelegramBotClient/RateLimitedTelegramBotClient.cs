@@ -8,19 +8,19 @@ namespace Arsam.RateLimitedTelegramBotClient;
 
 public class RateLimitedTelegramBotClient : TelegramBotClient
 {
-    private readonly TelegramRequestScheduler _requestScheduler;
+    private readonly Scheduler _requestScheduler;
 
     public RateLimitedTelegramBotClient(TelegramBotClientOptions options, SchedulerSettings? schedulerSettings = null,
         HttpClient? httpClient = null) : base(options,
         httpClient)
     {
-        _requestScheduler = new TelegramRequestScheduler(schedulerSettings);
+        _requestScheduler = new Scheduler(schedulerSettings);
     }
 
     public RateLimitedTelegramBotClient(string token, SchedulerSettings? schedulerSettings = null,
         HttpClient? httpClient = null) : base(token, httpClient)
     {
-        _requestScheduler = new TelegramRequestScheduler(schedulerSettings);
+        _requestScheduler = new Scheduler(schedulerSettings);
     }
 
 

@@ -7,7 +7,7 @@ using Telegram.Bot.Types;
 
 namespace Arsam.RateLimitedTelegramBotClient;
 
-public class TelegramRequestScheduler
+public class Scheduler
 {
     private readonly SchedulerSettings _settings;
     private readonly long _generalTimestampIncrement;
@@ -86,7 +86,7 @@ public class TelegramRequestScheduler
         _timer.Change(_settings.SafeGeneralInterval, Timeout.Infinite);
     }
 
-    public TelegramRequestScheduler(SchedulerSettings? schedulerSettings = null)
+    public Scheduler(SchedulerSettings? schedulerSettings = null)
     {
         _settings = schedulerSettings ?? SchedulerSettings.Default;
 
@@ -101,7 +101,7 @@ public class TelegramRequestScheduler
         _buckets = new Dictionary<long, Queue<TaskCompletionSource<bool>>?>(16);
 
         _lastTimestamp = 0;
-        _timer = new Timer(s => ((TelegramRequestScheduler) s!).OnInterval(), this, 0, Timeout.Infinite);
+        _timer = new Timer(s => ((Scheduler) s!).OnInterval(), this, 0, Timeout.Infinite);
     }
 
     private Task YieldAsyncCore(long bucket, long timestampIncrement)
